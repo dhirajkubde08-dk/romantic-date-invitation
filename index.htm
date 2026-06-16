@@ -70,7 +70,14 @@ font-size:16px;
 margin:10px;
 transition:.3s;
 }
-
+#noBtn,
+.moveDest,
+#wrongDate{
+transition:
+left 0.5s ease,
+top 0.5s ease,
+transform 0.5s ease;
+}
 .primary{
 background:#fff;
 color:#ff3366;
@@ -220,6 +227,15 @@ width:100%;
 <div class="page" id="invite">
 <div class="card">
 <h1>Hey Beautiful ❤️</h1>
+
+<p id="quote"
+style="
+margin-bottom:20px;
+font-style:italic;
+font-size:18px;
+">
+You are my favorite notification ❤️
+</p>
 
 <p>
 A critical decision requires your approval.
@@ -440,12 +456,29 @@ playClick();
 };
 
 function move(btn){
-const x=Math.random()*(window.innerWidth-120);
-const y=Math.random()*(window.innerHeight-80);
+
+const margin = 80;
+
+const maxX =
+window.innerWidth -
+btn.offsetWidth -
+margin;
+
+const maxY =
+window.innerHeight -
+btn.offsetHeight -
+margin;
+
+const x = Math.random() * maxX;
+const y = Math.random() * maxY;
 
 btn.style.position='fixed';
 btn.style.left=x+'px';
 btn.style.top=y+'px';
+
+btn.style.transform=
+`rotate(${Math.random()*12-6}deg) scale(1.05)`;
+
 }
 
 const noBtn=document.getElementById('noBtn');
@@ -501,9 +534,44 @@ show('ending');
 };
 
 document.getElementById('loveBtn').onclick=()=>{
-alert(
-"Mission Accomplished ❤️\n\nThank you for being the best part of my life."
-);
+
+document.body.innerHTML=`
+
+<div style="
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+text-align:center;
+padding:30px;
+color:white;
+">
+
+<h1 style="font-size:50px;">
+❤️ Mission Accomplished ❤️
+</h1>
+
+<p style="
+font-size:24px;
+line-height:1.8;
+">
+
+Thank you for being
+the best part of my life.
+
+<br><br>
+
+I can't wait for
+06 July 2026 ❤️
+
+</p>
+
+</div>
+`;
+
+launchConfetti();
+
 };
 
 function launchConfetti(){
@@ -564,7 +632,24 @@ setInterval(updateCountdown,1000);
 updateCountdown();
 
 const bgMusic=document.getElementById('bgMusic');
+document.addEventListener(
+'click',
+()=>{
+bgMusic.play();
+},
+{once:true}
+);
 const muteBtn=document.getElementById('muteBtn');
+
+bgMusic.volume = 0.3;
+
+document.addEventListener(
+'click',
+()=>{
+bgMusic.play();
+},
+{once:true}
+);
 
 muteBtn.onclick=()=>{
 
@@ -604,6 +689,83 @@ alert(
 "You found the secret message:\n\nDhiraj loves you endlessly ❤️"
 );
 }
+});
+
+const quotes = [
+
+"You are my favorite notification ❤️",
+
+"You make every day brighter ❤️",
+
+"My favorite place is beside you ❤️",
+
+"My favorite story is us ❤️",
+
+"Every day with you feels special ❤️"
+
+];
+
+let quoteIndex = 0;
+
+setInterval(()=>{
+
+quoteIndex =
+(quoteIndex + 1)
+% quotes.length;
+
+const q =
+document.getElementById("quote");
+
+if(q){
+
+q.innerText =
+quotes[quoteIndex];
+
+}
+
+},3000);
+
+document.addEventListener(
+"mousemove",
+(e)=>{
+
+const heart =
+document.createElement("div");
+
+heart.innerHTML="❤️";
+
+heart.style.position="fixed";
+
+heart.style.left =
+e.clientX + "px";
+
+heart.style.top =
+e.clientY + "px";
+
+heart.style.pointerEvents="none";
+
+heart.style.zIndex="9999";
+
+document.body.appendChild(heart);
+
+heart.animate([
+{
+transform:"translateY(0px)",
+opacity:1
+},
+{
+transform:"translateY(-40px)",
+opacity:0
+}
+],
+{
+duration:1000
+});
+
+setTimeout(()=>{
+heart.remove();
+},1000);
+
 });
 
 </script>
